@@ -61,99 +61,9 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="text-nowrap fw-medium">SMTP</td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="SMTPRead" name="smtp[]"
-                                                        value="smtp-list" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('smtp-list',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="SMTPRead">
-                                                        List
-                                                    </label>
-                                                </div>
-                                                <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="smtpCreatOREdite" name="smtp[]"
-                                                        value="smpt-create-edit" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('smpt-create-edit',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="smtpCreateOREdit">
-                                                        Create Or Edit
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-nowrap fw-medium">Contacts</td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="contactsRead" name="contact[]"
-                                                        value="contact-list" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('contact-list',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="contactsRead">
-                                                        List
-                                                    </label>
-                                                </div>
-                                                {{-- <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="contactsWrite" name="contact[]"
-                                                        value="contact-create" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('contact-create',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="contactsWrite">
-                                                        Create
-                                                    </label>
-                                                </div>
-                                                <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="moderatorManagementCreate" name="contact[]"
-                                                        value="contact-edit" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('contact-edit',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="moderatorManagementCreate">
-                                                        Edit
-                                                    </label>
-                                                </div> --}}
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="moderatorManagementDelete" name="contact[]"
-                                                        value="contact-delete" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('contact-delete',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="moderatorManagementDelete">
-                                                        Delete
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-nowrap fw-medium">Settings</td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="settingsRead" name="settings[]"
-                                                        value="settings-list" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('settings-list',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="settingsRead">
-                                                        List
-                                                    </label>
-                                                </div>
-                                                <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="settingtCreatOREdite" name="settings[]"
-                                                        value="settings-create-edit" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('settings-create-edit',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="settingCreateOREdit">
-                                                        Create Or Edit
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="SettingsDelete" name="settings[]"
-                                                        value="settings-delete" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('settings-delete',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="SettingsDelete">
-                                                        Delete
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    
+                                    
+                                    
                                     
                                     <tr>
                                         <td class="text-nowrap fw-medium">User Management</td>
@@ -194,124 +104,10 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="text-nowrap fw-medium">CMS</td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="cmsRead" name="cms[]"
-                                                        value="cms-list"  @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('cms-list',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="cmsRead">
-                                                        List
-                                                    </label>
-                                                </div>
-                                                <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="cmsWrite" name="cms[]"
-                                                        value="cms-create" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('cms-create',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="cmsWrite">
-                                                        Create
-                                                    </label>
-                                                </div>
-                                                <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="cmsCreate" name="cms[]"
-                                                        value="cms-edit" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('cms-edit',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="cmsCreate">
-                                                        Edit
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="cmsDelete" name="cms[]"
-                                                        value="cms-delete" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('cms-delete',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="cmsDelete">
-                                                        Delete
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-nowrap fw-medium">Email Template</td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="emailTemplateRead" name="email_template[]"
-                                                        value="email_template-list" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('email_template-list',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="emailTemplateRead">
-                                                        List
-                                                    </label>
-                                                </div>
-                                                <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="emailTemplateWrite" name="email_template[]"
-                                                        value="email_template-create" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('email_template-create',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="emailTemplateWrite">
-                                                        Create
-                                                    </label>
-                                                </div>
-                                                <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="emalTemplateCreate" name="email_template[]"
-                                                        value="email_template-edit" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('email_template-edit',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="emalTemplateCreate">
-                                                        Edit
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="emailTemplateDelete" name="email_template[]"
-                                                        value="email_template-delete" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('email_template-delete',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="emailTemplateDelete">
-                                                        Delete
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
                                     
-                                    <tr>
-                                        <td class="text-nowrap fw-medium">Moderator Management</td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="moderatorManagementRead" name="moderator_management[]"
-                                                        value="moderator_management-list" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('moderator_management-list',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="moderatorManagementRead">
-                                                        List
-                                                    </label>
-                                                </div>
-                                                <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="moderatorManagementWrite" name="moderator_management[]"
-                                                        value="moderator_management-create" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('moderator_management-create',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="moderatorManagementWrite">
-                                                        Create
-                                                    </label>
-                                                </div>
-                                                <div class="form-check me-3 me-lg-5">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="moderatorManagementCreate" name="moderator_management[]"
-                                                        value="moderator_management-edit" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('moderator_management-edit',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="moderatorManagementCreate">
-                                                        Edit
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="moderatorManagementDelete" name="moderator_management[]"
-                                                        value="moderator_management-delete" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('moderator_management-delete',$permissionsArray['name']))checked @endif/>
-                                                    <label class="form-check-label" for="moderatorManagementDelete">
-                                                        Delete
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    
+                                    
+                                    
                                     <tr>
                                         <td class="text-nowrap fw-medium">Role & Permission</td>
                                         <td>
@@ -344,6 +140,46 @@
                                                     <input class="form-check-input" type="checkbox"
                                                         id="rolePermissionDelete" name="role_permission[]"
                                                         value="role_permission-delete" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('role_permission-delete',$permissionsArray['name']))checked @endif/>
+                                                    <label class="form-check-label" for="rolePermissionDelete">
+                                                        Delete
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="text-nowrap fw-medium">Product</td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <div class="form-check me-3 me-lg-5">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="rolePermissionRead" name="role_permission[]"
+                                                        value="product-list" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('product-list',$permissionsArray['name']))checked @endif/>
+                                                    <label class="form-check-label" for="rolePermissionRead">
+                                                        List
+                                                    </label>
+                                                </div>
+                                                <div class="form-check me-3 me-lg-5">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="rolePermissionWrite" name="role_permission[]"
+                                                        value="product-create" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('product-create',$permissionsArray['name']))checked @endif/>
+                                                    <label class="form-check-label" for="rolePermissionWrite">
+                                                        Create
+                                                    </label>
+                                                </div>
+                                                <div class="form-check me-3 me-lg-5">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="rolePermissionCreate" name="role_permission[]"
+                                                        value="product-edit" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('product-edit',$permissionsArray['name']))checked @endif/>
+                                                    <label class="form-check-label" for="rolePermissionCreate">
+                                                        Edit
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="rolePermissionDelete" name="role_permission[]"
+                                                        value="product-delete" @if(!empty($permissionsArray) && isset($permissionsArray) && in_array('product-delete',$permissionsArray['name']))checked @endif/>
                                                     <label class="form-check-label" for="rolePermissionDelete">
                                                         Delete
                                                     </label>

@@ -23,4 +23,9 @@ class ProductController extends Controller
     {
         return view('admin.product.new-product');
     }
+
+    public function edit()
+    {
+        return view('admin.product.edit-product');
+    }
 }

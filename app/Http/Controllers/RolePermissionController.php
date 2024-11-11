@@ -120,6 +120,8 @@ class RolePermissionController extends Controller
             $permissionsArray['id'][] = $rolePermission->id;
             $permissionsArray['name'][] = $rolePermission->name;
         }
+
+        // dd($permissionsArray);
         return view('admin.role-permission.form', ['role' => $role, 'permissions' => $permissions, 'rolePermissions' => $rolePermissions, 'permissionsArray' => $permissionsArray]);
     }
 }
