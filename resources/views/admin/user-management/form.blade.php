@@ -1,13 +1,13 @@
 @php
     $mode = isset($user->id) ? 'Edit' : 'Add';
     $breadcrumb = '<h4 class="py-3 mb-4">
-        <a href="'.route('user-management').'">
+        <a href="'.route('users.list').'">
             <span class="text-muted fw-light">User Management</span></a><span class="text-muted fw-light">/</span>'. $mode .'
             </h4>';
     if(isset($user->id)){
-            $route = route('user-management.update');
+            $route = route('users.update');
         }else{
-            $route = route('user-management.save');
+            $route = route('users.save');
         }
 @endphp
 @extends('layouts/contentNavbarLayout')

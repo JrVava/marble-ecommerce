@@ -7,17 +7,17 @@
       "slug": "dashboard"
     },
     {
-      "url": "user-management",
+      "url": "users/list",
       "icon": "menu-icon tf-icons bx bx-user",
       "name": "User Management",
-      "slug": "user-management",
+      "slug": "users/list",
       "permission":"user_management-list"
     },
     {
-      "url": "role-permission",
+      "url": "role-permission/list",
       "icon": "menu-icon tf-icons bx bx-check-shield",
       "name": "Roles & Permissions",
-      "slug": "role-permission",
+      "slug": "role-permission/list",
       "permission":"role_permission-list"
     },
     {

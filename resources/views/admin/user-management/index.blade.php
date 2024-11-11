@@ -1,6 +1,6 @@
 @php
     $breadcrumb = '<h4 class="py-3 mb-4">
-            <a href="'.route('user-management').'"><span class="text-muted fw-light">User Management </span></a>
+            <a href="'.route('users.list').'"><span class="text-muted fw-light">User Management </span></a>
         </h4>';
 @endphp
 @extends('layouts/contentNavbarLayout')
@@ -35,7 +35,7 @@
     </style>
 {{-- 
     <div class="header-custom-block">
-        <a href="{{ route('user-management.create') }}" class="btn btn-primary">Add User</a>
+        <a href="{{ route(users.create) }}" class="btn btn-primary">Add User</a>
     </div> --}}
     <!-- Hoverable Table rows -->
     <div class="card">
@@ -43,7 +43,7 @@
             <h5 class="card-header">User Management</h5>
             
             @can('user_management-create')
-            <a href="{{ route('user-management.create') }}" class="btn btn-primary">Add User</a>
+            <a href="{{ route('users.create') }}" class="btn btn-primary">+ Add User</a>
             @endcan
         </div>
         <div class="table-responsive">
@@ -73,7 +73,7 @@
                 let id = $(this).attr('data-id');
 
                 $.ajax({
-                    url: "{{ route('user-management.status') }}",
+                    url: "{{ route('users.status') }}",
                     type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify({
@@ -105,7 +105,7 @@
                 table = $('#user-management-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('user-management') }}",
+                    ajax: "{{ route('users.list') }}",
                     columns: [{data: 'DT_RowIndex', name: 'DT_RowIndex'},
                         {
                             data: 'name',

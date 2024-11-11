@@ -31,21 +31,29 @@ Route::group(['middleware' => ['auth']], function () {
      */
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('role-permission', [RolePermissionController::class, 'index'])->name('role-permission');
-    Route::get('role-permission/create', [RolePermissionController::class, 'create'])->name('role-permission.create');
-    Route::post('role-permission/save', [RolePermissionController::class, 'store'])->name('role-permission.save');
-    Route::delete('/role-permission/delete/{id}', [RolePermissionController::class, 'delete'])->name('role-permission.delete');
-    Route::get('role-permission/edit/{id}', [RolePermissionController::class, 'edit'])->name('role-permission.edit');
     Route::post('role-permission/update', [RolePermissionController::class, 'update'])->name('role-permission.update');
 
+    Route::prefix('role-permission')->name('role-permission.')->group(function () {
+        Route::get('/list', [RolePermissionController::class, 'index'])->name('list');
+        Route::get('/create', [RolePermissionController::class, 'create'])->name('create');
+        Route::post('/save', [RolePermissionController::class, 'store'])->name('save');
+        Route::delete('/delete/{id}', [RolePermissionController::class, 'delete'])->name('delete');
+        Route::get('/edit/{id}', [RolePermissionController::class, 'edit'])->name('edit');
+        Route::post('/update', [RolePermissionController::class, 'update'])->name('update');
+    });
 
-    Route::get('user-management', [UserManagementContoller::class, 'index'])->name('user-management');
-    Route::get('user-management/create', [UserManagementContoller::class, 'create'])->name('user-management.create');
-    Route::get('user-management/edit/{id}', [UserManagementContoller::class, 'edit'])->name('user-management.edit');
-    Route::post('user-management/save', [UserManagementContoller::class, 'store'])->name('user-management.save');
-    Route::post('user-management/status', [UserManagementContoller::class, 'status'])->name('user-management.status');
-    Route::get('user-management/profile/{id}', [UserManagementContoller::class, 'profile'])->name('user-management.profile');
-    Route::post('user-management/update', [UserManagementContoller::class, 'update'])->name('user-management.update');
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/list', [UserManagementContoller::class, 'index'])->name('list');
+        Route::get('/create', [UserManagementContoller::class, 'create'])->name('create');
+        Route::get('/edit/{id}', [UserManagementContoller::class, 'edit'])->name('edit');
+        Route::post('/save', [UserManagementContoller::class, 'store'])->name('save');
+        Route::post('status', [UserManagementContoller::class, 'status'])->name('status');
+        Route::get('/profile/{id}', [UserManagementContoller::class, 'profile'])->name('profile');
+        Route::post('/update', [UserManagementContoller::class, 'update'])->name('update');
+    });
 
-    Route::get('products', [ProductController::class, 'index'])->name('products');
+    Route::prefix('products')->name('products.')->group(function () {
+        Route::get('/', [ProductController::class, 'index']); // Route name: products.index
+        Route::get('create', [ProductController::class, 'create'])->name('create'); // Route name: products.new
+    });
 });

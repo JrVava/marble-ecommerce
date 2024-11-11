@@ -1,6 +1,6 @@
 @php
     $breadcrumb = '<h4 class="py-3 mb-4">
-            <a href="'.route('role-permission').'"><span class="text-muted fw-light">Roles & Permission </span></a>
+            <a href="'.route('role-permission.list').'"><span class="text-muted fw-light">Roles & Permission </span></a>
         </h4>';
 @endphp
 @extends('layouts/contentNavbarLayout')
@@ -46,7 +46,7 @@
         <div class="header-custom-block">
             <h5 class="card-header">Roles & Permission</h5>
             @can('role_permission-create')
-            <a href="{{ route('role-permission.create') }}" class="btn btn-primary">Add New</a>
+            <a href="{{ route('role-permission.create') }}" class="btn btn-primary">+ Add New</a>
             @endcan
         </div>
         <div class="table-responsive">
@@ -99,7 +99,7 @@
                 table = $('#role-permission-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('role-permission') }}",
+                    ajax: "{{ route('role-permission.list') }}",
                     columns: [{
                             data: 'id',
                             name: 'id'

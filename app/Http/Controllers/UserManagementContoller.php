@@ -41,7 +41,7 @@ class UserManagementContoller extends Controller
                         $btn .= '<input class="form-check-input status" data-id="' . $row['id'] . '" type="checkbox" role="switch" id="status" ' . $status . '>';
                         $btn .= '</div>';
 
-                        $btn .= '<a href="' . route('user-management.edit', ['id' => $row['id']]) . '" title="EDIT">';
+                        $btn .= '<a href="' . route('users.edit', ['id' => $row['id']]) . '" title="EDIT">';
                         $btn .= '<i class="bx bx-edit-alt me-1"></i>';
                         $btn .= '</a>';
                     }
@@ -51,7 +51,7 @@ class UserManagementContoller extends Controller
                     //     $btn .= '<i class="bx bx-reset"></i>';
                     //     $btn .= '</a>';
                     // }
-                    $btn .= '<a href="' . route('user-management.profile', ['id' => $row['id']]) . '" title="PREVIEW PROFILE">';
+                    $btn .= '<a href="' . route('users.profile', ['id' => $row['id']]) . '" title="PREVIEW PROFILE">';
                     $btn .= '<i class="bx bxs-bullseye"></i>';
                     $btn .= '</a>';
 
@@ -103,7 +103,7 @@ class UserManagementContoller extends Controller
             $message->subject('New Account');
         });
 
-        return redirect()->route('user-management')->with('message', "User Created successfully.");
+        return redirect()->route('users.list')->with('message', "User Created successfully.");
     }
     public function update(Request $request)
     {
@@ -123,7 +123,7 @@ class UserManagementContoller extends Controller
             'status' => $request->status,
         ];
         User::where('id', '=', $request->id)->update($data);
-        return redirect()->route('user-management')->with('message', 'User Updated successfully.');
+        return redirect()->route('users.list')->with('message', 'User Updated successfully.');
     }
     public function status(Request $request)
     {

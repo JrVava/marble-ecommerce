@@ -86,7 +86,7 @@ class RolePermissionController extends Controller
 
         $message = isset($request->id) ? 'Role & Permission Updated Successfully' : 'Role & Permission Created Successfully';
 
-        return redirect()->route('role-permission')->with('message', $message);
+        return redirect()->route('role-permission.list')->with('message', $message);
     }
     protected function assignPermissions($role, $permissions, $prefix)
     {
@@ -103,7 +103,7 @@ class RolePermissionController extends Controller
     public function delete($id)
     {
         Role::where('id', '=', $id)->delete();
-        return redirect()->route('role-permission')->with('message', 'Role & Permission Deleted successfully');
+        return redirect()->route('role-permission.list')->with('message', 'Role & Permission Deleted successfully');
     }
 
     public function edit($id)

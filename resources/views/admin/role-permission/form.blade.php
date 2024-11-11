@@ -1,7 +1,7 @@
 @php
     $mode = isset($role->id) ? 'Edit' : 'Add';
     $breadcrumb = '<h4 class="py-3 mb-4">
-        <a href="'.route('role-permission').'"><span class="text-muted fw-light">Roles & Permission</span></a><span class="text-muted fw-light">/</span>'.$mode.'
+        <a href="'.route('role-permission.list').'"><span class="text-muted fw-light">Roles & Permission</span></a><span class="text-muted fw-light">/</span>'.$mode.'
         </h4>';
         $route = route('role-permission.save');
         // if(isset($role->id)){

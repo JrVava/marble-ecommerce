@@ -16,6 +16,11 @@ class ProductController extends Controller
     }
     public function index()
     {
-        dd("hello");
+        return view('admin.product.index');
+    }
+
+    public function create()
+    {
+        return view('admin.product.new-product');
     }
 }
