@@ -14,7 +14,8 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 
-<script src="https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo/assets/vendor/libs/flatpickr/flatpickr.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 
 <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>

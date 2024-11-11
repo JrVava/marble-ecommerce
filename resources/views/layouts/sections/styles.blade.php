@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="{{ getBaseUrl(). '/css/demo.css' }}" />
 <!-- Vendors CSS -->
 <link rel="stylesheet" href="{{ getBaseUrl(). '/vendor/libs/perfect-scrollbar/perfect-scrollbar.css' }}" />
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <!-- Vendor Styles -->
 @yield('vendor-style')
 
