@@ -1,0 +1,53 @@
+{
+  "menu": [
+    {
+      "url": "dashboard",
+      "icon": "menu-icon tf-icons bx bx-home-circle",
+      "name": "Dashboard",
+      "slug": "dashboard"
+    },
+    {
+      "url": "user-management",
+      "icon": "menu-icon tf-icons bx bx-user",
+      "name": "User Management",
+      "slug": "user-management",
+      "permission":"user_management-list"
+    },
+    {
+      "url": "cms",
+      "icon": "menu-icon tf-icons bx bx-layout",
+      "name": "CMS",
+      "slug": "cms",
+      "permission":"cms-list"
+    },
+    {
+      "url": "email-template",
+      "icon": "menu-icon tf-icons bx bx-envelope",
+      "name": "Email Template",
+      "slug": "email-template",
+      "permission":"email_template-list"
+    },
+    {
+      "url": "contact",
+      "icon": "menu-icon tf-icons bx bxs-contact",
+      "name": "Contact Us",
+      "slug": "contact",
+      "permission":"contact-list"
+    },
+    {
+      "url": "moderator-management",
+      "icon": "menu-icon tf-icons bx bx-group me-1",
+      "name": "Moderator Management",
+      "slug": "moderator-management",
+      "permission":"moderator_management-list"
+    },
+    {
+      "url": "role-permission",
+      "icon": "menu-icon tf-icons bx bx-check-shield",
+      "name": "Roles & Permissions",
+      "slug": "role-permission",
+      "permission":"role_permission-list"
+    }
+  ]
+  
+}
