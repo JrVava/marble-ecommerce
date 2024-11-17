@@ -15,7 +15,11 @@ return new class extends Migration {
             $table->string('product_name');
             $table->string('product_origin');
             $table->string('sku');
-            $table->string('product_cur_size')->nullable();
+            $table->string('thinkness')->nullable();
+            $table->string('product_height')->nullable();
+            $table->string('product_width')->nullable();
+            $table->string('shape')->nullable();
+            $table->string('edges')->nullable();
             $table->string('total_qty')->nullable();
             $table->string('no_of_slabs')->nullable();
             $table->longText('description')->nullable();

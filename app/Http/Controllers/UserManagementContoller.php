@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use DB;
+use Hash;
 use Illuminate\Http\Request;
 
 use Yajra\DataTables\Facades\DataTables;
@@ -21,40 +23,45 @@ class UserManagementContoller extends Controller
     }
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $roles = Role::get();
             $roleArray = [];
             foreach ($roles as $role) {
                 $roleArray[] = $role->name;
             }
-            $nonRoles = User::withoutRole($roleArray)->get();
+            $data = User::role($roleArray)->get();
 
-            return DataTables::of($nonRoles)
+            return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn('role', function ($row) {
+                    return $row->getRoleNames()[0];
+                })
                 ->addColumn('action', function ($row) {
 
                     $status = $row['status'] == 1 ? 'checked' : "";
                     $btn = '<div class="button-group d-flex">';
-                    if (auth()->user()->can('user_management-edit')) {
-                        $btn .= '<div class="form-check form-switch">';
-                        $btn .= '<input class="form-check-input status" data-id="' . $row['id'] . '" type="checkbox" role="switch" id="status" ' . $status . '>';
-                        $btn .= '</div>';
-
-                        $btn .= '<a href="' . route('users.edit', ['id' => $row['id']]) . '" title="EDIT">';
-                        $btn .= '<i class="bx bx-edit-alt me-1"></i>';
-                        $btn .= '</a>';
+                    if (!empty($row->getRoleNames()) && $row->getRoleNames()[0] != 'Admin') {
+                        if (auth()->user()->can('user_management-edit')) {
+                            $btn .= '<div class="form-check form-switch">';
+                            $btn .= '<input class="form-check-input status" data-id="' . $row['id'] . '" type="checkbox" role="switch" id="status" ' . $status . '>';
+                            $btn .= '</div>';
+                        }
+                        $btn .= '<div class="dropdown">';
+                        $btn .= '<button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>';
+                        $btn .= '<div class="dropdown-menu">';
+                        if (auth()->user()->can('user_management-edit')) {
+                            $btn .= '<a href="' . route('users.edit', ['id' => $row['id']]) . '" class="dropdown-item">';
+                            $btn .= '<i class="bx bx-edit-alt me-1"></i> Edit';
+                            $btn .= '</a>';
+                        }
+                        if (auth()->user()->can('user_management-delete')) {
+                            $btn .= '<form method="post" action="' . route('users.delete', ['id' => $row->id]) . '">' . csrf_field() . ' ' . method_field("DELETE") . '</form>';
+                            $btn .= '<a href="javascript:;" class="dropdown-item delete-cms">';
+                            $btn .= '<i class="bx bx-trash-alt me-1"></i> Delete';
+                            $btn .= '</a>';
+                        }
+                        $btn .= '</div></div>';
                     }
-                    // if (auth()->user()->can('user_management-delete')) {
-                    //     $btn .= '<form method="post" action="' . route('password.update') . '">' . csrf_field() . '<input type="hidden" name="id" value="' . $row['id'] . '" ></form>';
-                    //     $btn .= '<a href="javascript:;" title="RESET PASSWORD" class="reset-password">';
-                    //     $btn .= '<i class="bx bx-reset"></i>';
-                    //     $btn .= '</a>';
-                    // }
-                    $btn .= '<a href="' . route('users.profile', ['id' => $row['id']]) . '" title="PREVIEW PROFILE">';
-                    $btn .= '<i class="bx bxs-bullseye"></i>';
-                    $btn .= '</a>';
-
                     $btn .= '</div>';
                     return $btn;
                 })
@@ -62,7 +69,9 @@ class UserManagementContoller extends Controller
                     $statusLable = $row['status'] == 1 ? 'Active' : "Inactive";
                     $statusClass = $row['status'] == 1 ? 'primary' : "danger";
                     $btn = '';
-                    $btn .= "<span class='badge bg-label-$statusClass me-1'>$statusLable</span>";
+                    if (!empty($row->getRoleNames()) && $row->getRoleNames()[0] != 'Admin') {
+                        $btn .= "<span class='badge bg-label-$statusClass me-1'>$statusLable</span>";
+                    }
                     return $btn;
                 })
                 ->rawColumns(['action', 'status'])
@@ -74,34 +83,36 @@ class UserManagementContoller extends Controller
     public function edit($id)
     {
         $user = User::where('id', '=', $id)->first();
-        return view('admin.user-management.form', ['user' => $user]);
+        $roles = Role::where('name', '!=', 'Admin')->get();
+        $userRole = $user->roles->pluck('name', 'name')->first();
+        return view('admin.user-management.form', ['user' => $user, 'roles' => $roles, 'userRole' => $userRole]);
     }
     public function create()
     {
-        return view('admin.user-management.form');
+        $roles = Role::where('name', '!=', 'Admin')->get();
+        return view('admin.user-management.form',['roles' => $roles]);
     }
     public function store(Request $request)
     {
         $rules = [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $request->id,
-            'dob' => 'required',
             'password' => 'required|same:confirm_password',
+            'role' => 'required',
             'phone_number' => ['nullable', 'regex:/^[0-9]{10}$/']
         ];
+        // Validate the request first
+
 
         $request->validate($rules);
-        $user = new User();
-        $user->fill($request->all());
-        $user->save();
-        $mailData = [
-            'email' => $request->email,
-            'password' => $request->password
-        ];
-        Mail::send('email.new-account', $mailData, function ($message) use ($request) {
-            $message->to($request->email);
-            $message->subject('New Account');
-        });
+        // Hash the password after validation
+        $request['password'] = Hash::make($request->password);
+
+        // dd($request->all());
+        $user = User::create($request->all());
+
+        $user->assignRole($request->role);
+        
 
         return redirect()->route('users.list')->with('message', "User Created successfully.");
     }
@@ -110,19 +121,15 @@ class UserManagementContoller extends Controller
         $rules = [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $request->id,
-            'dob' => 'required',
+            'role' => 'required',
             'phone_number' => ['nullable', 'regex:/^[0-9]{10}$/']
         ];
+
         $request->validate($rules);
-        $data = [
-            'name' => $request->name,
-            'gender' => $request->gender,
-            'dob' => $request->dob,
-            'phone_number' => $request->phone_number,
-            'address' => $request->address,
-            'status' => $request->status,
-        ];
-        User::where('id', '=', $request->id)->update($data);
+        $user = User::find($request->id);
+        $user->update($request->all());
+        DB::table('model_has_roles')->where('model_id', $request->id)->delete();
+        $user->assignRole($request->role);
         return redirect()->route('users.list')->with('message', 'User Updated successfully.');
     }
     public function status(Request $request)
@@ -138,5 +145,11 @@ class UserManagementContoller extends Controller
     {
         $user = User::where('id', '=', $id)->first();
         return view('admin.user-management.profile', ['user' => $user]);
+    }
+
+    public function delete($id)
+    {
+        User::find($id)->delete();
+        return redirect()->route('moderator-management')->with('message', 'User Deleted successfully');
     }
 }

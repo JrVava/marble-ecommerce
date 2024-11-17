@@ -52,6 +52,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('status', [UserManagementContoller::class, 'status'])->name('status');
         Route::get('/profile/{id}', [UserManagementContoller::class, 'profile'])->name('profile');
         Route::post('/update', [UserManagementContoller::class, 'update'])->name('update');
+
+        Route::get('/delete/{id}', [UserManagementContoller::class, 'delete'])->name('delete');
     });
     /**
      * User Management Route End Here
