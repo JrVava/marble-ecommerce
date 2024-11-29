@@ -93,17 +93,6 @@
                                 <option value="0" @if (isset($user->status) && $user->status == 0) selected @endif>Inactive</option>
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-default-message">Role</label>
-                            <select name="role" class="form-control">
-                              <option value="">--Select Role--</option>
-                                @foreach($roles as $role)
-                                <option value="{{ $role->name }}" @if(isset($userRole) && $userRole == $role->name) selected @endif>{{ $role->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('role')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
                         @if (!isset($user->id))
                             <div class="mb-3">
                                 <label class="form-label" for="basic-default-message">Password</label>

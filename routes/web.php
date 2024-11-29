@@ -3,9 +3,12 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RolePermissionController;
-use App\Http\Controllers\UserManagementContoller;
+use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\CkeditorController;
+use App\Http\Controllers\ModeratorManagementController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,15 +48,15 @@ Route::group(['middleware' => ['auth']], function () {
      * User Management Route Start Here
      */
     Route::prefix('users')->name('users.')->group(function () {
-        Route::get('/list', [UserManagementContoller::class, 'index'])->name('list');
-        Route::get('/create', [UserManagementContoller::class, 'create'])->name('create');
-        Route::get('/edit/{id}', [UserManagementContoller::class, 'edit'])->name('edit');
-        Route::post('/save', [UserManagementContoller::class, 'store'])->name('save');
-        Route::post('status', [UserManagementContoller::class, 'status'])->name('status');
-        Route::get('/profile/{id}', [UserManagementContoller::class, 'profile'])->name('profile');
-        Route::post('/update', [UserManagementContoller::class, 'update'])->name('update');
+        Route::get('/list', [UserManagementController::class, 'index'])->name('list');
+        Route::get('/create', [UserManagementController::class, 'create'])->name('create');
+        Route::get('/edit/{id}', [UserManagementController::class, 'edit'])->name('edit');
+        Route::post('/save', [UserManagementController::class, 'store'])->name('save');
+        Route::post('status', [UserManagementController::class, 'status'])->name('status');
+        Route::get('/profile/{id}', [UserManagementController::class, 'profile'])->name('profile');
+        Route::post('/update', [UserManagementController::class, 'update'])->name('update');
 
-        Route::get('/delete/{id}', [UserManagementContoller::class, 'delete'])->name('delete');
+        Route::get('/delete/{id}', [UserManagementController::class, 'delete'])->name('delete');
     });
     /**
      * User Management Route End Here
@@ -63,10 +66,23 @@ Route::group(['middleware' => ['auth']], function () {
      * Products Route End Here
      */
     Route::prefix('products')->name('products.')->group(function () {
-        Route::get('/', [ProductController::class, 'index']);
+        Route::get('/', [ProductController::class, 'index'])->name('list');
+        Route::get('/get-products', [ProductController::class, 'getProducts'])->name('get-products');
         Route::get('create', [ProductController::class, 'create'])->name('create');
+        Route::post('save', [ProductController::class, 'store'])->name('save');
+        Route::delete('delete/{product_id}', [ProductController::class, 'delete'])->name('delete');
+        Route::get('edit/{product_id}', [ProductController::class, 'edit'])->name('edit');
     });
     /**
      * Products Route End Here
      */
+
+    Route::get('moderator-management', [ModeratorManagementController::class, 'index'])->name('moderator-management');
+    Route::get('moderator-management/create', [ModeratorManagementController::class, 'create'])->name('moderator-management.create');
+    Route::post('moderator-management/save', [ModeratorManagementController::class, 'store'])->name('moderator-management.save');
+    Route::get('moderator-management/edit/{id}', [ModeratorManagementController::class, 'edit'])->name('moderator-management.edit');
+    Route::delete('/moderator-management/delete/{id}', [ModeratorManagementController::class, 'delete'])->name('moderator-management.delete');
+    Route::post('moderator-management/update', [ModeratorManagementController::class, 'update'])->name('moderator-management.update');
+
+    Route::post('ckeditor/upload', [CkeditorController::class, 'upload'])->name('ckeditor.upload');
 });

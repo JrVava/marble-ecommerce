@@ -24,89 +24,128 @@
         <div class="col-xl">
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Product</h5> <small class="text-muted float-end">User Management</small>
+                    <h5 class="mb-0">Product</h5> <small class="text-muted float-end">New Product</small>
                 </div>
                 <div class="card-body">
-                    <form action="#" method="post">
+                    <form action="{{ route('products.save') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
-                            <label class="form-label" for="basic-default-fullname">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email Id"
-                                value="@if (isset($user->email)) {{ $user->email }}@else{{ old('email') }} @endif"
-                                {{ isset($user) ? 'readonly' : '' }} ppattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}"
-                                title="Please enter a valid email address" oninput="checkEmailValidity(this)" />
-                            <span id="emailError" style="color: red;"></span>
+                            <label class="form-label" for="product_name">Product Name</label>
+                            <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Enter Product Name"
+                                value="{{ isset($product->product_name) ? $product->product_name : old('product_name') }}" />
+                            @error('product_name')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="sku">SKU</label>
+                            <input type="text" class="form-control" name="sku" id="sku"
+                                value="{{ isset($product->sku) ? $product->sku : old('sku') }}"
+                                placeholder="Enter SKU" />
+                            @error('sku')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="product_origin">Product Origin</label>
+                            <input type="text" class="form-control" id="product_origin" name="product_origin" placeholder="Enter Product Origin"
+                                value="{{ isset($product->product_origin) ? $product->product_origin : old('product_origin') }}" />
+                            @error('product_origin')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label" for="thickness">Product Thickness</label>
+                            <input type="text" class="form-control" id="thickness" name="thickness" placeholder="Enter Product Thickness"
+                                value="{{ isset($product->thickness) ? $product->thickness : old('thickness') }}" />
+                            @error('thickness')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                            @error('email')
+                        <div class="mb-3">
+                            <label class="form-label" for="product_height">Product Height</label>
+                            <input type="text" class="form-control" id="product_height" name="product_height" placeholder="Enter Product Height"
+                                value="{{ isset($product->product_height) ? $product->product_height : old('product_height') }}" />
+                            @error('product_height')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="product_width">Product Width</label>
+                            <input type="text" class="form-control" id="product_width" name="product_width" placeholder="Enter Product Width"
+                                value="{{ isset($product->product_width) ? $product->product_width : old('product_width') }}" />
+                            @error('product_width')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="name">Name</label>
-                            <input type="text" class="form-control" name="name" id="name"
-                                value="@if (isset($user->name)) {{ $user->name }}@else{{ old('name') }} @endif"
-                                placeholder="Name" />
-                            @error('name')
+                            <label class="form-label" for="shape">Product shape</label>
+                            <input type="text" class="form-control" id="shape" name="shape" placeholder="Enter Product Shape"
+                                value="{{ isset($product->shape) ? $product->shape : old('shape') }}" />
+                            @error('shape')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="edges">Product edges</label>
+                            <input type="text" class="form-control" id="edges" name="edges" placeholder="Enter Product Edges"
+                                value="{{ isset($product->edges) ? $product->edges : old('edges') }}" />
+                            @error('edges')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="total_qty">Product total quantity</label>
+                            <input type="text" class="form-control" id="total_qty" name="total_qty" placeholder="Enter Product Total Quantity"
+                                value="{{ isset($product->total_qty) ? $product->total_qty : old('total_qty') }}" />
+                            @error('total_qty')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="no_of_slabs">Product Total Slabs</label>
+                            <input type="text" class="form-control" id="no_of_slabs" name="no_of_slabs" placeholder="Enter Product Total Slabs"
+                                value="{{ isset($product->no_of_slabs) ? $product->no_of_slabs : old('no_of_slabs') }}" />
+                            @error('no_of_slabs')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="rate">Product rate</label>
+                            <input type="text" class="form-control" id="rate" name="rate" placeholder="Enter Product Rate"
+                                value="{{ isset($product->rate) ? $product->rate : old('rate') }}" />
+                            @error('rate')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="discount">Product discount</label>
+                            <input type="text" class="form-control" id="discount" name="discount" placeholder="Enter Product Discount"
+                                value="{{ isset($product->discount) ? $product->discount : old('discount') }}" />
+                            @error('discount')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="basic-default-email">Gender</label>
-                            <select name="gender" class="form-control">
-                                <option value="">--Select Gender--</option>
-                                <option value="Male" @if (isset($user->gender) && $user->gender == 'Male') selected @endif>Male</option>
-                                <option value="Female" @if (isset($user->gender) && $user->gender == 'Female') selected @endif>Female</option>
-                                <option value="Other" @if (isset($user->gender) && $user->gender == 'Other') selected @endif>Other</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-default-phone">Date of Birth</label>
-                            <input type="text" name="dob" id="dob" class="form-control phone-mask"
-                                placeholder="Date Of Birth"
-                                value="@if (isset($user->dob)) {{ $user->dob }}@else{{ old('dob') }} @endif" />
-                            @error('dob')
+                            <label class="form-label" for="description">Product Description</label>
+                            <textarea id="description" class="form-control" name="description" placeholder="Enter Product Description">{{ isset($product->description) ? $product->description : old('description') }}</textarea>
+                            @error('description')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+
                         <div class="mb-3">
-                            <label class="form-label" for="phone_number">Phone Number</label>
-                            <input type="text" name="phone_number" id="phone_number" class="form-control phone-mask"
-                                placeholder="Phone Number"
-                                value="@if (isset($user->phone_number)) {{ $user->phone_number }}@else{{ old('phone_number') }} @endif" />
-                            @error('phone_number')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <label for="fileUpload" class="form-label">Choose Files</label>
+                            <input class="form-control" type="file" id="fileUpload" name="images[]" multiple>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-default-message">Address</label>
-                            <textarea class="form-control" name="address" placeholder="Address">
-@if (isset($user->address))
-{{ $user->address }}@else{{ old('address') }}
-@endif
-</textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-default-message">Status</label>
-                            <select name="status" class="form-control">
-                                <option value="1" @if (isset($user->status) && $user->status) selected @endif>Active</option>
-                                <option value="0" @if (isset($user->status) && $user->status == 0) selected @endif>Inactive</option>
-                            </select>
-                        </div>
-                        @if (!isset($user->id))
-                            <div class="mb-3">
-                                <label class="form-label" for="basic-default-message">Password</label>
-                                <input type="password" name="password" id="password" class="form-control password"
-                                    placeholder="Password" />
-                                @error('password')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="basic-default-message">Confirm Password</label>
-                                <input type="password" name="confirm_password" id="confirm-password"
-                                    class="form-control password" placeholder="Confirm Password" />
-                            </div>
-                        @endif
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
@@ -115,7 +154,28 @@
     </div>
     <script>
         $(document).ready(function() {
-            console.log("Hello");
+            ClassicEditor.create(document.querySelector('#description'), {
+                ckfinder: {
+                    uploadUrl: '{{ route('ckeditor.upload') . '?_token=' . csrf_token() }}',
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+            $('#product_name').keyup(function() {
+                let inputValue = this.value;
+                let sanitizedValue = sanitizeText(inputValue);
+                $('#sku').val(`${sanitizedValue}`);
+            })
+
+            function sanitizeText(inputText) {
+                var sanitizedText = inputText.replace(/[^\w\s]/gi, '');
+                sanitizedText = sanitizedText.replace(/\s+/g, '-');
+                sanitizedText = sanitizedText.replace(/\//g, ''); // Exclude forward slash
+                sanitizedText = sanitizedText.toLowerCase();
+                return sanitizedText;
+            }
         })
     </script>
 @endsection

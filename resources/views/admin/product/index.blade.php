@@ -68,77 +68,63 @@
     </div>
     <script>
         $(document).ready(function() {
-        //     var table = null;
-        //     dataTableFun();
-        //     $('body').on('change', '.status', function() {
-        //         let status = $(this).prop('checked');
-        //         let id = $(this).attr('data-id');
+            var table = null;
+            dataTableFun();
+            $("body").on("click", ".delete-product", function(e) {
+                e.preventDefault();
+                let text = "Are you sure you want to delete this product?";
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(this).prev('form').submit();
+                    }
+                });
+            });
 
-        //         $.ajax({
-        //             url: "{{ route('users.status') }}",
-        //             type: "POST",
-        //             contentType: "application/json",
-        //             data: JSON.stringify({
-        //                 "_token": "{{ csrf_token() }}",
-        //                 status: status,
-        //                 id: id
-        //             }),
-        //             success: function(response, status) {
-        //                 if (table !== null) {
-        //                     table.clear().destroy(); // Destroy the DataTable
-        //                 }
-        //                 if (response.status === 200) {
-        //                     toastr.options = {
-        //                         "closeButton": true,
-        //                         "progressBar": true
-        //                     }
-        //                     toastr.success(response.message);
-        //                 }
-        //                 dataTableFun();
-        //             }
-        //         });
-        //     });
-            
-        //     $('body').on('click','.reset-password',function(){
-        //         $(this).prev('form').submit();
-        //     })
 
-        //     function dataTableFun() {
-        //         table = $('#user-management-table').DataTable({
-        //             processing: true,
-        //             serverSide: true,
-        //             ajax: "{{ route('users.list') }}",
-        //             columns: [{data: 'DT_RowIndex', name: 'DT_RowIndex'},
-        //                 {
-        //                     data: 'name',
-        //                     name: 'name'
-        //                 },
-        //                 {
-        //                     data: 'email',
-        //                     name: 'email'
-        //                 },
-        //                 {
-        //                     data: 'status',
-        //                     name: 'status'
-        //                 },
-        //                 {
-        //                     data: 'status',
-        //                     name: 'status'
-        //                 },
-        //                 {
-        //                     data: 'status',
-        //                     name: 'status'
-        //                 },
-        //                 {
-        //                     data: 'action',
-        //                     name: 'action',
-        //                     orderable: false,
-        //                     searchable: false,
-        //                 },
-        //             ],
-        //         });
-        //     }
-        // });
+            function dataTableFun() {
+                table = $('#user-management-table').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ route('products.get-products') }}",
+                    columns: [{data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                        {
+                            data: 'product_name',
+                            name: 'product_name'
+                        },
+                        {
+                            data: 'sku',
+                            name: 'sku'
+                        },
+                        {
+                            data: 'total_qty',
+                            name: 'total_qty'
+                        },
+                        {
+                            data: 'rate',
+                            name: 'rate'
+                        },
+                        {
+                            data: 'discount',
+                            name: 'discount'
+                        },
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false,
+                            searchable: false,
+                        },
+                    ],
+                });
+            }
+        });
         @if (Session::has('message'))
             toastr.options = {
                 "closeButton": true,

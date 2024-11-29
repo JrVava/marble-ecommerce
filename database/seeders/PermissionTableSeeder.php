@@ -29,6 +29,11 @@ class PermissionTableSeeder extends Seeder
             'product-create',
             'product-edit',
             'product-delete',
+
+            'moderator_management-list',
+            'moderator_management-create',
+            'moderator_management-edit',
+            'moderator_management-delete',
         ];
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);

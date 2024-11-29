@@ -21,6 +21,13 @@
       "permission":"role_permission-list"
     },
     {
+      "url": "moderator-management",
+      "icon": "menu-icon tf-icons bx bx-group me-1",
+      "name": "Moderator Management",
+      "slug": "moderator-management",
+      "permission":"moderator_management-list"
+    },
+    {
       "url": "products",
       "icon": "menu-icon tf-icons bx bxs-package",
       "name": "Products",
