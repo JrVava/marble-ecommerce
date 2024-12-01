@@ -1,3 +1,9 @@
+@php
+    $route = route('products.save');
+    if(isset($product->id)){
+        $route = route('products.update');
+    }   
+@endphp
 @extends('layouts/contentNavbarLayout')
 
 @section('title', ' Product - Add')
@@ -27,8 +33,11 @@
                     <h5 class="mb-0">Product</h5> <small class="text-muted float-end">New Product</small>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('products.save') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ $route }}" method="post" enctype="multipart/form-data">
                         @csrf
+                        @if(isset($product->id))
+                            <input type="hidden" name="id" value="{{$product->id}}">
+                        @endif
                         <div class="mb-3">
                             <label class="form-label" for="product_name">Product Name</label>
                             <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Enter Product Name"

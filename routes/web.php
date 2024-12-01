@@ -72,6 +72,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('save', [ProductController::class, 'store'])->name('save');
         Route::delete('delete/{product_id}', [ProductController::class, 'delete'])->name('delete');
         Route::get('edit/{product_id}', [ProductController::class, 'edit'])->name('edit');
+        Route::post('update',[ProductController::class,'update'])->name('update');
+        Route::get('qrcode/{product_id}', [ProductController::class, 'showQRCode'])->name('qrcode');
+
     });
     /**
      * Products Route End Here
