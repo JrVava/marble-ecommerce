@@ -100,9 +100,9 @@
     {{-- QR Model End Here --}}
     <script>
         $(document).ready(function() {
-            $('#printQrCode').on('click', function() {
+            $("body").on("click",'#printQrCode', function() {
                 var printContents = $('#qrCodeContainer').html();
-
+                
                 // Create a hidden iframe to use it for printing
                 var iframe = document.createElement('iframe');
                 iframe.style.position = 'absolute';
@@ -118,7 +118,6 @@
             <html>
             <head>
                 <title>Print QR Code</title>
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
                 <style>
                     body {
                         display: flex;
