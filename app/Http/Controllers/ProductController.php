@@ -46,7 +46,7 @@ class ProductController extends Controller
                     $btn .= '<i class="bx bx-trash me-1"></i>';
                     $btn .= '</a>';
                 }
-                $btn .= '<a href="javascript:;" title="QR Code of '.$row['product_name'].'" data-bs-toggle="modal" data-bs-target="#qrModal" data-id="' . $row['id'] . '">';
+                $btn .= '<a href="javascript:;" title="QR Code of ' . $row['product_name'] . '" data-bs-toggle="modal" data-bs-target="#qrModal" data-id="' . $row['id'] . '">';
                 $btn .= '<i class="bx bx-qr-scan me-1"></i></a>';
                 $btn .= '</div>';
                 return $btn;
@@ -108,23 +108,27 @@ class ProductController extends Controller
 
     public function edit($product_id)
     {
-        $product = Product::where('id', '=', $product_id)->first();
+        $product = Product::where('id', '=', $product_id)->with('images')->first();
+
+        // dd($product);
         return view('admin.product.new-product', ['product' => $product]);
     }
 
-    public function update(Request $request){
-
+    public function update(Request $request)
+    {
+        // dd($request->all());
         $productId = $request->id;
         $data = $request->all();
 
         unset($data['images']);
         unset($data['_token']);
         // unset($data['id']);
-        Product::where('id','=',$productId)->update($data);
-        
-        if(isset($request->images)){
+        Product::where('id', '=', $productId)->update($data);
+        if (isset($request->images)) {
             $imageData = [];
-            $images = $request->images; 
+            $images = $request->images;
+            // dd($images);
+
             foreach ($images as $image) {
                 $fileName = time() . '_' . $productId . "_" . uniqid() . "." . $image->getClientOriginalExtension();
                 $image->storeAs("public/product_images/$productId", $fileName);
@@ -137,20 +141,19 @@ class ProductController extends Controller
                 $image->save();
             }
         }
-        return redirect()->route('products.list')->with('message', "Product Added Successfully");
+        return redirect()->route('products.list')->with('message', "Product Updated Successfully");
     }
 
     public function showQRCode($product_id)
-{
-    $product = Product::findOrFail($product_id);
+    {
+        $product = Product::findOrFail($product_id);
 
-    // Generate QR Code with the base URL and product ID
-    $qrCode = base64_encode(QrCode::size(200)->generate(route("products.qrcode", ['product_id' => $product->id])));
+        // Generate QR Code with the base URL and product ID
+        $qrCode = base64_encode(QrCode::size(200)->generate(route("products.qrcode", ['product_id' => $product->id])));
 
-    // Embed the QR code as an HTML image tag
-    $qrCodeHtml = '<img src="data:image/svg+xml;base64,' . $qrCode . '" alt="QR Code">';
+        // Embed the QR code as an HTML image tag
+        $qrCodeHtml = '<img src="data:image/svg+xml;base64,' . $qrCode . '" alt="QR Code">';
 
-    return response()->json(['qrCodeHtml' => $qrCodeHtml,'productName' => $product->product_name]);
-}
-
+        return response()->json(['qrCodeHtml' => $qrCodeHtml, 'productName' => $product->product_name]);
+    }
 }

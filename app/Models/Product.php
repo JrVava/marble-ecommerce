@@ -31,4 +31,9 @@ class Product extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id', 'id');
+    }
 }

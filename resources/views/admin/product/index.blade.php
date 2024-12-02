@@ -97,7 +97,7 @@
     </div>
 
 
-
+    
     {{-- QR Model End Here --}}
     <script>
         $(document).ready(function() {
