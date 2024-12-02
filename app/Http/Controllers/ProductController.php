@@ -109,14 +109,11 @@ class ProductController extends Controller
     public function edit($product_id)
     {
         $product = Product::where('id', '=', $product_id)->with('images')->first();
-
-        // dd($product);
         return view('admin.product.new-product', ['product' => $product]);
     }
 
     public function update(Request $request)
     {
-        // dd($request->all());
         $productId = $request->id;
         $data = $request->all();
 
@@ -127,8 +124,6 @@ class ProductController extends Controller
         if (isset($request->images)) {
             $imageData = [];
             $images = $request->images;
-            // dd($images);
-
             foreach ($images as $image) {
                 $fileName = time() . '_' . $productId . "_" . uniqid() . "." . $image->getClientOriginalExtension();
                 $image->storeAs("public/product_images/$productId", $fileName);
