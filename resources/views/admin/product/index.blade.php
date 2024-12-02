@@ -78,7 +78,8 @@
                 <div class="modal-header bg-primary text-white">
                     <b class="modal-title" id="qrModalLabel">QR Code of</b>
                     <strong id="product_name" class="ms-2 text-white"></strong>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
                     <div id="qrCodeContainer" class="p-4">
@@ -100,9 +101,9 @@
     {{-- QR Model End Here --}}
     <script>
         $(document).ready(function() {
-            $("body").on("click",'#printQrCode', function() {
+            $("body").on("click", '#printQrCode', function() {
                 var printContents = $('#qrCodeContainer').html();
-                
+
                 // Create a hidden iframe to use it for printing
                 var iframe = document.createElement('iframe');
                 iframe.style.position = 'absolute';
@@ -119,17 +120,23 @@
             <head>
                 <title>Print QR Code</title>
                 <style>
+                       @page {
+                    size: 500px 500px; /* Set page size to 500x500 pixels */
+                    margin: 0; /* Remove default margins */
+                    padding:0;
+                }
                     body {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        height: 100vh;
-                        margin: 0;
-                        padding: 0;
+                       width:100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 0;
+                    padding: 0;
                     }
                     #qrCode {
-                        width: 400px;
-                        height: 400px;
+                        width: 40%;
+                        height: 40%;
                     }
                 </style>
             </head>
