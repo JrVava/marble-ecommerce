@@ -31,12 +31,16 @@ class AuthController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard')
-                ->withSuccess('You have Successfully loggedin');
+            $user = Auth::user();
+            if($user->getRoleNames()->count() > 0){
+                return redirect()->intended('dashboard')
+                    ->withSuccess('You have Successfully loggedin');
+            }
+            $intendedUrl = session('url.intended', url('/'));
+            return redirect($intendedUrl);
         }
         return redirect()
             ->route('login')

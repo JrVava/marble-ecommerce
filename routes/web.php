@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductPreviewController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
@@ -74,7 +75,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('edit/{product_id}', [ProductController::class, 'edit'])->name('edit');
         Route::post('update',[ProductController::class,'update'])->name('update');
         Route::get('qrcode/{product_id}', [ProductController::class, 'showQRCode'])->name('qrcode');
-
     });
     /**
      * Products Route End Here
@@ -88,4 +88,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('moderator-management/update', [ModeratorManagementController::class, 'update'])->name('moderator-management.update');
 
     Route::post('ckeditor/upload', [CkeditorController::class, 'upload'])->name('ckeditor.upload');
+    
+    Route::prefix('preview-product')->name('preview-product.')->group(function () {
+        Route::get('/{product_id}',[ProductPreviewController::class,'index'])->name('index');
+        Route::post('/send-product-pdf',[ProductPreviewController::class,'sendProductPDF'])->name('send-product-pdf');
+    });
 });

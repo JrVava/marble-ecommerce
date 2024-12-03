@@ -144,7 +144,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($product_id);
 
         // Generate QR Code with the base URL and product ID
-        $qrCode = base64_encode(QrCode::size(200)->generate(route("products.qrcode", ['product_id' => $product->id])));
+        $qrCode = base64_encode(QrCode::size(200)->generate(route("preview-product.index", ['product_id' => $product->id])));
 
         // Embed the QR code as an HTML image tag
         $qrCodeHtml = '<img src="data:image/svg+xml;base64,' . $qrCode . '" alt="QR Code">';
