@@ -43,7 +43,7 @@
             <h5 class="card-header">User Management</h5>
             
             @can('user_management-create')
-            <a href="{{ route('users.create') }}" class="btn btn-primary">Add User</a>
+            <a href="{{ route('users.create') }}" class="btn btn-primary">+ Add New User</a>
             @endcan
         </div>
         <div class="table-responsive">

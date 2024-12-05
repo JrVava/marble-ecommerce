@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -22,26 +23,33 @@ class RolePermissionController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $roles = Role::orderBy('id', 'DESC')->get();
-            // dd($roles);
+            $_roles = Role::orderBy('id', 'DESC');
+            if (!Auth::user()->hasRole('Admin')) {
+                $_roles->where('name', '!=', 'Admin');
+            }
+            $roles = $_roles->get();
+
             return DataTables::of($roles)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<div class="button-group d-flex">';
-
-                    $btn .= '<div class="dropdown">';
-                    $btn .= '<button type="button" class="btn p-0 dropdown-toggle hide-arrow btn btn-primary p-2 " data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>';
-                    $btn .= '<div class="dropdown-menu">';
-                    $btn .= '<a href="' . route('role-permission.edit', ['id' => $row['id']]) . '" class="dropdown-item">';
-                    $btn .= '<i class="bx bx-edit-alt me-1"></i> Edit';
-                    $btn .= '</a>';
-                    $btn .= '<form method="post" action="' . route('role-permission.delete', ['id' => $row->id]) . '">' . csrf_field() . ' ' . method_field("DELETE") . '</form>';
-                    $btn .= '<a href="javascript:;" class="dropdown-item delete-cms">';
-                    $btn .= '<i class="bx bx-trash-alt me-1"></i> Delete';
-                    $btn .= '</a>';
-                    $btn .= '</div></div>';
-                    $btn .= '</div>';
-                    return $btn;
+                    $getRole = Auth::user()->getRoleNames();
+                    $currentUserRole = isset($getRole[0]) ? $getRole[0] : null;
+                    if ($row->name !== "Admin" || $currentUserRole === "Admin") {
+                        $btn = '<div class="button-group d-flex">';
+                        $btn .= '<div class="dropdown">';
+                        $btn .= '<button type="button" class="btn p-0 dropdown-toggle hide-arrow btn btn-primary p-2 " data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>';
+                        $btn .= '<div class="dropdown-menu">';
+                        $btn .= '<a href="' . route('role-permission.edit', ['id' => $row['id']]) . '" class="dropdown-item">';
+                        $btn .= '<i class="bx bx-edit-alt me-1"></i> Edit';
+                        $btn .= '</a>';
+                        $btn .= '<form method="post" action="' . route('role-permission.delete', ['id' => $row->id]) . '">' . csrf_field() . ' ' . method_field("DELETE") . '</form>';
+                        $btn .= '<a href="javascript:;" class="dropdown-item delete-cms">';
+                        $btn .= '<i class="bx bx-trash-alt me-1"></i> Delete';
+                        $btn .= '</a>';
+                        $btn .= '</div></div>';
+                        $btn .= '</div>';
+                        return $btn;
+                    }
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -76,13 +84,11 @@ class RolePermissionController extends Controller
         // dd($role,$request->input('user_managemant', []));
         // Assign permissions to the role
         $this->assignPermissions($role, $request->input('user_managemant', []), 'user_management');
-        $this->assignPermissions($role, $request->input('cms', []), 'cms');
-        $this->assignPermissions($role, $request->input('email_template', []), 'email_template');
-        $this->assignPermissions($role, $request->input('contact', []), 'contact');
+
+        $this->assignPermissions($role, $request->input('product_permission', []), 'product_permission');
         $this->assignPermissions($role, $request->input('moderator_management', []), 'moderator_management');
         $this->assignPermissions($role, $request->input('role_permission', []), 'role_permission');
-        $this->assignPermissions($role, $request->input('smtp', []), 'smtp');
-        $this->assignPermissions($role, $request->input('settings', []), 'settings');
+
 
         $message = isset($request->id) ? 'Role & Permission Updated Successfully' : 'Role & Permission Created Successfully';
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
@@ -13,7 +14,7 @@ class ModeratorManagementController extends Controller
 {
     public  function __construct()
     {
-         $this->middleware('permission:moderator_management-list|moderator_management-create|moderator_management-edit|moderator_management-delete', ['only' => ['index','show']]);
+         $this->middleware('permission:moderator_management-list', ['only' => ['index','show']]);
          $this->middleware('permission:moderator_management-create', ['only' => ['create','store']]);
          $this->middleware('permission:moderator_management-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:moderator_management-delete', ['only' => ['delete']]);
@@ -26,7 +27,17 @@ class ModeratorManagementController extends Controller
             foreach ($roles as $role) {
                 $roleArray[] = $role->name;
             }
-            $data =User::role($roleArray)->get();
+            // $data =User::role($roleArray)->get();
+            $loggedInUserRole = Auth::user()->getRoleNames()->first();
+
+            if ($loggedInUserRole !== 'Admin') {
+                // If the logged-in user is not Admin, exclude Admin records
+                $roles = Role::where('name', '!=', 'Admin')->pluck('name')->toArray();
+                $data = User::role($roles)->get();
+            } else {
+                // If the logged-in user is Admin, fetch all records
+                $data = User::role($roleArray)->get();
+            }
 
             return DataTables::of($data)
                 ->addIndexColumn()

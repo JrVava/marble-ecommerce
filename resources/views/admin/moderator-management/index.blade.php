@@ -39,7 +39,7 @@
         <div class="header-custom-block">
             <h5 class="card-header">Moderator Management</h5>
             @can('moderator_management-create')
-            <a href="{{ route('moderator-management.create') }}" class="btn btn-primary">Add New</a>
+            <a href="{{ route('moderator-management.create') }}" class="btn btn-primary">+ Add New Moderator</a>
             @endcan
         </div>
         <div class="table-responsive">

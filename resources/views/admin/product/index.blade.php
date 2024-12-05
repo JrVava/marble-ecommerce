@@ -46,7 +46,7 @@
             <h5 class="card-header">Products</h5>
 
             @can('user_management-create')
-                <a href="{{ route('products.create') }}" class="btn btn-primary">+ Add Product</a>
+                <a href="{{ route('products.create') }}" class="btn btn-primary">+ Add New Product</a>
             @endcan
         </div>
         <div class="table-responsive">

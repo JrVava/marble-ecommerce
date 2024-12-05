@@ -46,7 +46,7 @@
         <div class="header-custom-block">
             <h5 class="card-header">Roles & Permission</h5>
             @can('role_permission-create')
-            <a href="{{ route('role-permission.create') }}" class="btn btn-primary">+ Add New</a>
+            <a href="{{ route('role-permission.create') }}" class="btn btn-primary">+ Add New Role</a>
             @endcan
         </div>
         <div class="table-responsive">

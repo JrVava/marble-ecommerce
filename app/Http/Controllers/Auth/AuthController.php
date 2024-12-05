@@ -35,18 +35,25 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            if($user->getRoleNames()->count() > 0){
-                return redirect()->intended('dashboard')
-                    ->withSuccess('You have Successfully loggedin');
+            // dd($user->status);
+            if ($user->status) {
+                if ($user->getRoleNames()->count() > 0) {
+                    return redirect()->intended('dashboard')
+                        ->withSuccess('You have Successfully loggedin');
+                }
+                $intendedUrl = session('url.intended', url('/'));
+                return redirect($intendedUrl);
+            }else{
+                Session::flush();
+                Auth::logout();
+                return redirect()
+                    ->route('login')
+                    ->withErrors([
+                        'error' => 'Opps! Inactive user please contact to admin.'
+                    ]);
+
             }
-            $intendedUrl = session('url.intended', url('/'));
-            return redirect($intendedUrl);
         }
-        return redirect()
-            ->route('login')
-            ->withErrors([
-                'error' => 'Opps! You have entered invalid credentials'
-            ]);
     }
 
     /**
