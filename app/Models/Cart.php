@@ -6,17 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class ProductImage extends Model
+class Cart extends Model
 {
     use HasFactory;
 
-    protected $table = 'images';
+    protected $table = 'carts';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        'image',
         'product_id',
+        'user_id',
+        'fields',
+        'image_id'
     ];
 
     protected $casts = [

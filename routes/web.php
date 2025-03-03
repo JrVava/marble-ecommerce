@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('save', [ProductController::class, 'store'])->name('save');
         Route::delete('delete/{product_id}', [ProductController::class, 'delete'])->name('delete');
         Route::get('edit/{product_id}', [ProductController::class, 'edit'])->name('edit');
-        Route::post('update',[ProductController::class,'update'])->name('update');
+        Route::post('update', [ProductController::class, 'update'])->name('update');
         Route::get('qrcode/{product_id}', [ProductController::class, 'showQRCode'])->name('qrcode');
     });
     /**
@@ -88,9 +88,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('moderator-management/update', [ModeratorManagementController::class, 'update'])->name('moderator-management.update');
 
     Route::post('ckeditor/upload', [CkeditorController::class, 'upload'])->name('ckeditor.upload');
-    
+
     Route::prefix('preview-product')->name('preview-product.')->group(function () {
-        Route::get('/{product_id}',[ProductPreviewController::class,'index'])->name('index');
-        Route::post('/send-product-pdf',[ProductPreviewController::class,'sendProductPDF'])->name('send-product-pdf');
+        Route::post('/send-product-pdf', [ProductPreviewController::class, 'sendProductPDF'])->name('send-product-pdf');
+        Route::post('/add-to-cart', [ProductPreviewController::class, 'addToCart'])->name('add-to-cart');
+        Route::get('/cart', [ProductPreviewController::class, 'cart'])->name('cart');
+        Route::get('/all-products', [ProductPreviewController::class, 'getAllProducts'])->name('all-products');
+        Route::get('/{product_id}', [ProductPreviewController::class, 'index'])->name('index');
     });
 });
