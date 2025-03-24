@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Amazon-like Product Page</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+	<style>
+		.small-img {
+			cursor: pointer;
+		}
+
+		.product-title {
+			font-size: 24px;
+			font-weight: bold;
+		}
+
+		.price {
+			font-size: 22px;
+			color: #B12704;
+		}
+
+		.rating i {
+			color: #FFA41C;
+		}
+
+		.buy-btn {
+			background-color: #FF9900;
+			color: white;
+		}
+
+		.cart-btn {
+			background-color: #FFD814;
+		}
+
+		.image-gallery {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			max-height: 400px;
+			overflow: hidden;
+			position: relative;
+		}
+
+		.image-list {
+			display: flex;
+			flex-direction: column;
+			overflow-y: auto;
+			max-height: 350px;
+			scrollbar-width: thin;
+			scrollbar-color: #ccc transparent;
+		}
+
+		.image-list::-webkit-scrollbar {
+			width: 6px;
+		}
+
+		.image-list::-webkit-scrollbar-thumb {
+			background: #aaa;
+			border-radius: 5px;
+		}
+
+		.arrow {
+			cursor: pointer;
+			font-size: 20px;
+			background: rgba(0, 0, 0, 0.5);
+			color: white;
+			border: none;
+			padding: 5px;
+			width: 40px;
+			text-align: center;
+		}
+
+		.arrow:hover {
+			background: rgba(0, 0, 0, 0.8);
+		}
+
+		.image-wrapper {
+			position: relative;
+			display: inline-block;
+		}
+
+		.image-wrapper input[type="checkbox"] {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+			width: 16px;
+			height: 16px;
+			cursor: pointer;
+			opacity: 0.9;
+		}
+
+		#mainImage {
+			max-width: 400px;
+			/* Set a fixed width */
+			max-height: 400px;
+			/* Set a fixed height */
+			object-fit: contain;
+			/* Prevent stretching */
+		}
+
+		.image-list img {
+			width: 80px;
+			/* Fixed thumbnail width */
+			height: 80px;
+			/* Fixed thumbnail height */
+			object-fit: cover;
+			/* Crop if necessary */
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="container mt-4">
+		<div class="row">
+			<!-- Left: Image Thumbnails & Main Image -->
+			<div class="col-md-5 d-flex">
+				<!-- Thumbnails with Arrows -->
+				<div class="image-gallery me-2">
+					<button class="arrow" onclick="scrollThumbnails(-1)">&#9650;</button>
+					<div class="image-list" id="imageList">
+						<div class="image-wrapper">
+							<input type="checkbox">
+							<img src="https://m.media-amazon.com/images/I/51brdXeugJL._SX679_.jpg"
+								class="img-thumbnail small-img" width="80" onclick="changeImage(this)">
+						</div>
+						<div class="image-wrapper">
+							<input type="checkbox">
+							<img src="https://m.media-amazon.com/images/I/61f4dTush1L._SX679_.jpg"
+								class="img-thumbnail small-img" width="80" onclick="changeImage(this)">
+						</div>
+						<div class="image-wrapper">
+							<input type="checkbox">
+							<img src="https://m.media-amazon.com/images/I/712CBkmhLhL._SX679_.jpg"
+								class="img-thumbnail small-img" width="80" onclick="changeImage(this)">
+						</div>
+						<div class="image-wrapper">
+							<input type="checkbox">
+							<img src="https://m.media-amazon.com/images/I/51brdXeugJL._SX679_.jpg"
+								class="img-thumbnail small-img" width="80" onclick="changeImage(this)">
+						</div>
+						<div class="image-wrapper">
+							<input type="checkbox">
+							<img src="https://m.media-amazon.com/images/I/61f4dTush1L._SX679_.jpg"
+								class="img-thumbnail small-img" width="80" onclick="changeImage(this)">
+						</div>
+						<div class="image-wrapper">
+							<input type="checkbox">
+							<img src="https://m.media-amazon.com/images/I/712CBkmhLhL._SX679_.jpg"
+								class="img-thumbnail small-img" width="80" onclick="changeImage(this)">
+						</div>
+						<div class="image-wrapper">
+							<input type="checkbox">
+							<img src="https://m.media-amazon.com/images/I/51brdXeugJL._SX679_.jpg"
+								class="img-thumbnail small-img" width="80" onclick="changeImage(this)">
+						</div>
+						<div class="image-wrapper">
+							<input type="checkbox">
+							<img src="https://m.media-amazon.com/images/I/61f4dTush1L._SX679_.jpg"
+								class="img-thumbnail small-img" width="80" onclick="changeImage(this)">
+						</div>
+						<div class="image-wrapper">
+							<input type="checkbox">
+							<img src="https://m.media-amazon.com/images/I/712CBkmhLhL._SX679_.jpg"
+								class="img-thumbnail small-img" width="80" onclick="changeImage(this)">
+						</div>
+						<div class="image-wrapper">
+							<input type="checkbox">
+							<img src="https://m.media-amazon.com/images/I/51brdXeugJL._SX679_.jpg"
+								class="img-thumbnail small-img" width="80" onclick="changeImage(this)">
+						</div>
+						<div class="image-wrapper">
+							<input type="checkbox">
+							<img src="https://m.media-amazon.com/images/I/61f4dTush1L._SX679_.jpg"
+								class="img-thumbnail small-img" width="80" onclick="changeImage(this)">
+						</div>
+						<div class="image-wrapper">
+							<input type="checkbox">
+							<img src="https://m.media-amazon.com/images/I/712CBkmhLhL._SX679_.jpg"
+								class="img-thumbnail small-img" width="80" onclick="changeImage(this)">
+						</div>
+					</div>
+					<button class="arrow" onclick="scrollThumbnails(1)">&#9660;</button>
+				</div>
+
+				<!-- Main Product Image -->
+				<div class="text-center d-flex align-items-center">
+					<img id="mainImage"
+						src="https://m.media-amazon.com/images/I/31KxpX7Xk7L._SY445_SX342_QL70_FMwebp_.jpg"
+						class="img-fluid border" width="300" >
+				</div>
+			</div>
+
+			<!-- Right: Product Info -->
+			<div class="col-md-7">
+				<h3 class="product-title">Product Name</h3>
+				<p class="text-success fw-bold">In Stock</p>
+				<h4 class="price">₹999.00</h4>
+				<p><strong>Category:</strong> Electronics</p>
+				<p><strong>Brand:</strong> XYZ</p>
+
+				<div class="rating mb-3">
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star"></i>
+					<i class="fas fa-star-half-alt"></i>
+					<i class="far fa-star"></i>
+					<span>(120 Reviews)</span>
+				</div>
+
+				<button class="btn buy-btn me-2">Buy Now</button>
+				<button class="btn cart-btn">Add to Cart</button>
+			</div>
+		</div>
+		<!-- Product Description -->
+		<div class="mt-5">
+			<h4>Description</h4>
+			<p>This is a detailed description of the product. It includes all specifications, features, and benefits.
+			</p>
+		</div>
+	</div>
+
+	<script>
+		function changeImage(imgElement) {
+			document.getElementById("mainImage").src = imgElement.src;
+		}
+
+		function scrollThumbnails(direction) {
+			const imageList = document.getElementById("imageList");
+			imageList.scrollBy({ top: direction * 80, behavior: 'smooth' });
+		}
+	</script>
+
+</body>
+
+</html>
