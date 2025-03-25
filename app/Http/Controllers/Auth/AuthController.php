@@ -35,14 +35,17 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            // dd($user->status);
             if ($user->status) {
                 if ($user->getRoleNames()->count() > 0) {
                     return redirect()->intended('dashboard')
                         ->withSuccess('You have Successfully loggedin');
                 }
-                $intendedUrl = session('url.intended', url('/'));
-                return redirect($intendedUrl);
+                if(session('url.intended') == null){
+                    return redirect()->route('preview-product.all-products');
+                }else{
+                    $intendedUrl = session('url.intended', url('/'));
+                    return redirect($intendedUrl);
+                }
             }else{
                 Session::flush();
                 Auth::logout();

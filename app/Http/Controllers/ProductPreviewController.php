@@ -31,8 +31,10 @@ class ProductPreviewController extends Controller
     {
         $product = Product::where('id', '=', $request->product_id)->first();
         $productData = [];
-        foreach ($request->product_checkbox as $productKey) {
-            $productData[$productKey] = $product->$productKey;
+        if (isset($request->product_checkbox)) {
+            foreach ($request->product_checkbox as $productKey) {
+                $productData[$productKey] = $product->$productKey;
+            }
         }
 
         if (isset($request->images)) {
@@ -42,8 +44,32 @@ class ProductPreviewController extends Controller
         }
 
         $pdf = Pdf::loadView('pdf.product', $productData);
+        // Define file path inside storage/app/public/
+        // $pdfPath = 'pdfs/product_' . time() . '.pdf';
 
+        // Save PDF to storage
+        // Storage::disk('public')->put($pdfPath, $pdf->output());
+
+        // Send PDF via WhatsApp
+        // $this->sendWhatsAppPdf($request->whatsapp_number, $pdfPath);
         return $pdf->download('example.pdf');
+    }
+
+    /**
+     * Send PDF via WhatsApp using Twilio
+     */
+    private function sendWhatsAppPdf($phone, $pdfPath)
+    {
+        // $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+
+        // $twilio->messages->create(
+        //     "whatsapp:$phone",
+        //     [
+        //         'from' => env('TWILIO_WHATSAPP_NUMBER'),
+        //         'body' => "Here is your product PDF!",
+        //         'mediaUrl' => [asset('storage/' . $pdfPath)] // Attach the PDF file
+        //     ]
+        // );
     }
 
     public function addToCart(Request $request)

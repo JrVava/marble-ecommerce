@@ -65,7 +65,7 @@
             <h2>Product Details</h2>
             <p class="text-muted">Review product details below</p>
         </div>
-        <form method="post" action="{{ route('preview-product.add-to-cart') }}">
+        <form method="post" action="{{ route('preview-product.send-product-pdf') }}">
             @csrf
             <input type="hidden" name="product_id" value="{{ $product->id }}">
             <!-- Product Name -->
@@ -203,8 +203,8 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-warning">
-                <i class="bi bi-cart3"></i>
-                Add To Cart
+                {{-- <i class="bi bi-cart3"></i> --}}
+                Send
             </button>
         </form>
     </div>
