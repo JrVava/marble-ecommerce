@@ -114,12 +114,34 @@
 
         .image-checkbox-container img {
             display: block;
-            width: 300px;
+            max-width: 100%;
             height: auto;
             border-radius: 8px;
         }
-    </style>
 
+        .image-box-items{
+            width: calc(100% / 6 - 14px);
+        }
+        @media (max-width:991px){
+        .image-box-items{
+            width: calc(100% / 4 - 14px);
+        }
+     }
+     @media (max-width:767px){
+        .image-box-items{
+            width: calc(100% / 3 - 14px);
+        }
+     }
+
+        @media (max-width:540px){
+        .image-box-items{
+            width: calc(100% / 2 - 10px);
+        }
+     }
+    </style>
+     <form method="post" action="{{ route('preview-product.send-product-pdf') }}">
+        @csrf
+        <input type="hidden" name="product_id" value="{{ $product->id }}">
     <div class="container mt-4">
         <div class="row">
             @if ($product->images->count() > 0)
@@ -132,41 +154,101 @@
                 </div>
             @endif
             <div class="col-md-6">
-                <h3 class="product-title">{{ $product->product_name ?? '' }}</h3>
-                <p class="stock-status">In Stock</p>
-                <h4 class="price">₹{{ number_format($product->price, 2) }}</h4>
-                <p><strong>SKU:</strong> {{ $product->sku ?? 'N/A' }}</p>
-                <p><strong>Brand:</strong> XYZ</p>
-            </div>
+                <h3 class="product-title">
+                    <input type="checkbox" class="detail-checkbox" name="product_checkbox[]" value="product_name">
+                    Product: {{ $product->product_name ?? '' }}
+                </h3>
+                <p>
+                    <input type="checkbox" class="detail-checkbox" name="product_checkbox[]" value="sku">
+                    <strong>SKU:</strong> {{ $product->sku ?? 'N/A' }}
+                </p>           
+                <p class="stock-status">
+                    <input type="checkbox" class="detail-checkbox" name="product_checkbox[]" value="rate">
+                    Price: ₹{{ $product->rate }}
+                </p> 
+                <p class="price">
+                    <input type="checkbox" class="detail-checkbox" name="product_checkbox[]" value="discount">
+                     Discount: {{ $product->discount }}%
+                </p>
+                
+                {{-- <p>
+                    <input type="checkbox" class="detail-checkbox" data-id="{{ $product->id }}" data-label="Brand">
+                    <strong>Brand:</strong> XYZ
+                </p> --}}
+            </div>            
         </div>
         <div class="mt-5">
             <table class="spec-table">
-                @foreach ([
-            'Product Origin' => $product->origin,
-            'Thickness' => $product->thickness . ' mm',
-            'Product Height' => $product->height . ' cm',
-            'Product Width' => $product->width . ' cm',
-            'Shape' => $product->shape,
-            'Edges' => $product->edges,
-            'Total Quantity' => $product->quantity,
-            'No. of Slabs' => $product->slabs,
-            'Rate' => '₹' . $product->rate,
-            'Discount' => $product->discount . '%',
-        ] as $label => $value)
-                    <tr>
-                        <th>{{ $label }}</th>
-                        <td>{{ $value }}</td>
-                    </tr>
-                @endforeach
+                <tr>
+                    <th>
+                        <input type="checkbox" class="spec-checkbox" name="product_checkbox[]" value="product_origin">
+                        Product Origin
+                    </th>
+                    <td>{{ $product->origin }}</td>
+                </tr>
+                <tr>
+                    <th>
+                        <input type="checkbox" class="spec-checkbox" name="product_checkbox[]" value="thickness" >
+                        Thickness
+                    </th>
+                    <td>{{ $product->thickness }} mm</td>
+                </tr>
+                <tr>
+                    <th>
+                        <input type="checkbox" class="spec-checkbox" name="product_checkbox[]" value="product_height" >
+                        Product Height
+                    </th>
+                    <td>{{ $product->height }} cm</td>
+                </tr>
+                <tr>
+                    <th>
+                        <input type="checkbox" class="spec-checkbox" name="product_checkbox[]" value="product_width">
+                        Product Width
+                    </th>
+                    <td>{{ $product->width }} cm</td>
+                </tr>
+                <tr>
+                    <th>
+                        <input type="checkbox" class="spec-checkbox" name="product_checkbox[]" value="shape">
+                        Shape
+                    </th>
+                    <td>{{ $product->shape }}</td>
+                </tr>
+                <tr>
+                    <th>
+                        <input type="checkbox" class="spec-checkbox" name="product_checkbox[]" value="edges">
+                        Edges
+                    </th>
+                    <td>{{ $product->edges }}</td>
+                </tr>
+                <tr>
+                    <th>
+                        <input type="checkbox" class="spec-checkbox" name="product_checkbox[]" value="total_qty">
+                        Total Quantity
+                    </th>
+                    <td>{{ $product->quantity }}</td>
+                </tr>
+                <tr>
+                    <th>
+                        <input type="checkbox" class="spec-checkbox" name="product_checkbox[]" value="no_of_slabs">
+                        No. of Slabs
+                    </th>
+                    <td>{{ $product->slabs }}</td>
+                </tr>
             </table>
-            <h4 class="mt-4">Description</h4>
-            <p>{!! $product->description !!}</p>
+                      
+            <h4 class="mt-4">
+                <input type="checkbox" class="spec-checkbox" 
+                name="product_checkbox[]" value="description" >
+                Description
+            </h4>
+            <p>{!! $product->description !!}</p>            
         </div>
         <div class="mb-3">
             <label for="checkImages" class="form-label"><strong>Images</strong></label>
             <div class="d-flex flex-wrap gap-3">
                 @foreach ($product->images as $image)
-                    <div class="image-checkbox-container">
+                    <div class="image-checkbox-container image-box-items">
                         <input type="checkbox" name="images[]" value="{{ $image->id }}"
                             id="product-image-{{ $image->id }}">
                         <label for="product-image-{{ $image->id }}">
@@ -177,7 +259,6 @@
                 @endforeach
             </div>
         </div>
-        <button class="btn buy-btn me-2">Buy Now</button>
-        <button class="btn cart-btn">Add to Cart</button>
+        <button type="submit" class="btn buy-btn me-2">Send</button>
     </div>
 @endsection

@@ -5,29 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details</title>
     <style>
-        /* Global styling */
         body {
             font-family: 'Roboto', Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             color: #333;
         }
-        
+
+        .container {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
         h1 {
             font-size: 24px;
-            margin-bottom: 20px;
             text-align: center;
+            margin-bottom: 10px;
             color: #2a2a2a;
         }
 
         .section {
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             padding: 10px;
             border-bottom: 1px solid #ddd;
-        }
-
-        .section:last-child {
-            border-bottom: none;
+            font-size: 14px;
         }
 
         .section strong {
@@ -35,32 +37,27 @@
             color: #555;
         }
 
-        .section div {
-            font-size: 14px;
-            color: #333;
-            margin-top: 5px;
-        }
-
-        .images {
+        /* Page Layout for Images */
+        .page {
+            width: 100%;
             display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 15px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
-        .images img {
-            width: 120px;
-            height: 120px;
+        .page img {
+            width: 700px;
+            height: 500px;
             object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin-bottom: 10px;
         }
 
-        /* Styling for optional fields */
-        .optional {
-            font-style: italic;
-            color: #777;
+        .page:not(:last-of-type) {
+            page-break-after: always; /* Apply page break except for the last page */
         }
+
     </style>
 </head>
 <body>
@@ -69,94 +66,67 @@
 
     @if(isset($product_name))
         <div class="section"><strong>Product Name:</strong> {{ $product_name }}</div>
-    @else
-        <div class="section optional">Product Name: Not available</div>
     @endif
 
     @if(isset($sku))
         <div class="section"><strong>SKU:</strong> {{ $sku }}</div>
-    @else
-        <div class="section optional">SKU: Not available</div>
     @endif
 
     @if(isset($product_origin))
         <div class="section"><strong>Product Origin:</strong> {{ $product_origin }}</div>
-    @else
-        <div class="section optional">Product Origin: Not available</div>
     @endif
 
     @if(isset($thickness))
         <div class="section"><strong>Thickness:</strong> {{ $thickness }}</div>
-    @else
-        <div class="section optional">Thickness: Not available</div>
     @endif
 
     @if(isset($product_height))
         <div class="section"><strong>Product Height:</strong> {{ $product_height }}</div>
-    @else
-        <div class="section optional">Product Height: Not available</div>
     @endif
 
     @if(isset($product_width))
         <div class="section"><strong>Product Width:</strong> {{ $product_width }}</div>
-    @else
-        <div class="section optional">Product Width: Not available</div>
     @endif
 
     @if(isset($shape))
         <div class="section"><strong>Shape:</strong> {{ $shape }}</div>
-    @else
-        <div class="section optional">Shape: Not available</div>
     @endif
 
     @if(isset($edges))
         <div class="section"><strong>Edges:</strong> {{ $edges }}</div>
-    @else
-        <div class="section optional">Edges: Not available</div>
     @endif
 
     @if(isset($total_qty))
         <div class="section"><strong>Total Quantity:</strong> {{ $total_qty }}</div>
-    @else
-        <div class="section optional">Total Quantity: Not available</div>
     @endif
 
     @if(isset($no_of_slabs))
         <div class="section"><strong>No of Slabs:</strong> {{ $no_of_slabs }}</div>
-    @else
-        <div class="section optional">No of Slabs: Not available</div>
     @endif
 
     @if(isset($rate))
         <div class="section"><strong>Rate:</strong> {{ $rate }}</div>
-    @else
-        <div class="section optional">Rate: Not available</div>
     @endif
 
     @if(isset($discount))
         <div class="section"><strong>Discount:</strong> {{ $discount }}</div>
-    @else
-        <div class="section optional">Discount: Not available</div>
     @endif
 
     @if(isset($description))
         <div class="section"><strong>Description:</strong> {!! $description !!}</div>
-    @else
-        <div class="section optional">Description: Not available</div>
     @endif
-
+    
     @if(isset($images) && $images->isNotEmpty())
-        <div class="section">
-            <strong>Images:</strong>
-            <div class="images">
-                @foreach($images as $image)
-                    <img src="{{ public_path('storage/product_images/' . $image->product_id . '/' . $image->image) }}" alt="Product Image">
-                @endforeach
-            </div>
+    <div style="page-break-before: always;"></div> <!-- Ensure images always start on a new page -->
+    @foreach($images->chunk(2) as $index => $imagePair)
+        <div class="page" @if($index < ceil($images->count() / 2) - 1) style="page-break-after: always;" @endif>
+            @foreach($imagePair as $image)
+                <img src="{{ public_path('storage/product_images/' . $image->product_id . '/' . $image->image) }}" alt="Product Image">
+            @endforeach
         </div>
-    @else
-        <div class="section optional">No images available</div>
-    @endif
+    @endforeach
+@endif
+
 
 </body>
 </html>
