@@ -33,6 +33,12 @@
       "name": "Products",
       "slug": "products",
       "permission":"product-list"
+    },
+    {
+      "url": "histories",
+      "icon": "menu-icon tf-icons bx bx-history",
+      "name": "History",
+      "slug": "histories"
     }
   ]
   

@@ -11,7 +11,7 @@
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css" />
-
+    <link href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <style>
         .navbar {
             box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
@@ -100,7 +100,7 @@
         }
 
         .mobile-nav ul li a {
-            display: flex;
+            display: flex !important;
             flex-direction: column-reverse;
             align-items: center;
             justify-content: center;
@@ -152,8 +152,14 @@
                                 Products</a>
                         </li>
                         <li class="nav-item d-flex align-items-center cart-li">
-                            <a href="#" class="nav-link scan-other-product" style="display: none;">Scan Other
-                                Product</a>
+                            <a href="#" class="nav-link scan-other-product" style="display: none;">
+                                Scan
+                            </a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center cart-li">
+                            <a href="{{ route('preview-product.all-products') }}" class="nav-link scan-other-product" style="display: none;">
+                                History
+                            </a>
                         </li>
                         <li class="nav-item d-flex align-items-center">
                             <a class="nav-link d-flex align-items-center" href="{{ route('logout') }}"
@@ -182,8 +188,14 @@
             </li>
             <li>
                 <a href="#" class="scan-other-product" style="display: none;">
-                    Scan Other Product
+                    Scan
                     <i class="bi bi-qr-code-scan"></i>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('histories') }}" style="display: none;">
+                    History
+                    <i class="bi bi-clock-history"></i>
                 </a>
             </li>
             <li>
@@ -208,6 +220,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
     @yield('scripts')
 
     <script>
