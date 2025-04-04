@@ -139,6 +139,7 @@
         }
      }
     </style>
+    
      <form method="post" action="{{ route('preview-product.send-product-pdf') }}">
         @csrf
         <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -170,7 +171,9 @@
                     <input type="checkbox" class="detail-checkbox" name="product_checkbox[]" value="discount">
                      Discount: {{ $product->discount }}%
                 </p>
-                
+                <p >
+                     Mobile Number: <input type="text" class="form-control" name="mobile_number">
+                </p>
                 {{-- <p>
                     <input type="checkbox" class="detail-checkbox" data-id="{{ $product->id }}" data-label="Brand">
                     <strong>Brand:</strong> XYZ

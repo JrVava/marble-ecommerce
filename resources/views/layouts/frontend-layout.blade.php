@@ -8,6 +8,10 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css" />
+
     <style>
         .navbar {
             box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
@@ -20,10 +24,13 @@
         .navbar .navbar-nav .nav-link {
             color: #000;
         }
+
         .bold-icon {
-    font-size: 1.3em; /* Increase size */
-    font-weight: bold; /* Attempt to make it bolder */
-}
+            font-size: 1.3em;
+            /* Increase size */
+            font-weight: bold;
+            /* Attempt to make it bolder */
+        }
 
         @media screen and (min-width: 1024px) {
             .navbar {
@@ -115,9 +122,26 @@
     <script src="https://unpkg.com/html5-qrcode"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
     @yield('scripts')
 
     <script>
+        @if (Session::has('success'))
+
+            toastr.success("{{ Session::get('success') }}");
+        @endif
+
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                toastr.error("{{ $error }}");
+            @endforeach
+        @endif
+        
+        @if (Session::has('error'))
+
+            toastr.error("{{ Session::get('error') }}");
+        @endif
+        
         $(document).ready(function() {
             cart()
             $("body").on("click", ".increment, .decrement", function(event) {
@@ -174,7 +198,7 @@
                             .id.includes('1'));
 
                         let cameraId = backCamera ? backCamera.id : devices[0]
-                        .id; // Use back camera if available, otherwise default
+                            .id; // Use back camera if available, otherwise default
 
                         html5QrCode.start(
                             cameraId, {

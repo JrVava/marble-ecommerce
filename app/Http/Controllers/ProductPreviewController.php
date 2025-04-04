@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\History;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class ProductPreviewController extends Controller
 {
@@ -29,6 +32,16 @@ class ProductPreviewController extends Controller
 
     public function sendProductPDF(Request $request)
     {
+        $request->validate([
+            'mobile_number' => 'required|digits:10', // Ensures the number is exactly 10 digits
+            'product_checkbox' => 'required|array|min:1', // Ensures at least one checkbox is selected
+        ], [
+            'mobile_number.required' => 'The mobile number is required.',
+            'mobile_number.digits' => 'The mobile number must be exactly 10 digits.',
+            'product_checkbox.required' => 'At least one checkbox must be selected.',
+            'product_checkbox.min' => 'At least one checkbox must be selected.',
+        ]);
+
         $product = Product::where('id', '=', $request->product_id)->first();
         $productData = [];
         if (isset($request->product_checkbox)) {
@@ -44,33 +57,87 @@ class ProductPreviewController extends Controller
         }
 
         $pdf = Pdf::loadView('pdf.product', $productData);
-        // Define file path inside storage/app/public/
-        // $pdfPath = 'pdfs/product_' . time() . '.pdf';
+        // Save PDF temporarily to storage
+        $pdfPath = 'pdfs/product_' . time() . '.pdf';
+        $pdfPath = storage_path('app/public/temp_pdf_' . time() . '.pdf');
+        file_put_contents($pdfPath, $pdf->output());
 
-        // Save PDF to storage
-        // Storage::disk('public')->put($pdfPath, $pdf->output());
+        // Send WhatsApp with PDF
+        $whatsAppStatus = $this->sendWhatsAppMessage($request->mobile_number, $pdfPath);
 
-        // Send PDF via WhatsApp
-        // $this->sendWhatsAppPdf($request->whatsapp_number, $pdfPath);
-        return $pdf->download('example.pdf');
+        // Optional: delete the PDF after sending
+        if ($whatsAppStatus['status'] == 200) {
+            unlink($pdfPath);
+        }
+
+        $images = isset($request->images) && count($request->images) > 0 ?? 'images';
+        $tableFields['fields'] = implode(',', $request['product_checkbox']);
+        $tableFields['product_id'] = $request->product_id;
+        $tableFields['user_id'] = Auth::id();
+        $tableFields['mobile_number'] = $request->mobile_number;
+
+        if ($images) {
+            $tableFields['image_id'] = implode(",", $request->images);
+        }
+
+        $this->saveHistory($tableFields);
+        return back()->with("success", "Product PDF has been sent.");
     }
 
-    /**
-     * Send PDF via WhatsApp using Twilio
-     */
-    private function sendWhatsAppPdf($phone, $pdfPath)
+    public function sendWhatsAppMessage($mobileNumber, $filePath)
     {
-        // $twilio = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
-
-        // $twilio->messages->create(
-        //     "whatsapp:$phone",
-        //     [
-        //         'from' => env('TWILIO_WHATSAPP_NUMBER'),
-        //         'body' => "Here is your product PDF!",
-        //         'mediaUrl' => [asset('storage/' . $pdfPath)] // Attach the PDF file
-        //     ]
-        // );
+        $whatsAppResponse = Http::asMultipart()
+            ->attach('myfile', fopen($filePath, 'r'), basename($filePath))
+            ->post(env('WHATSAPP_URL'), [
+                [
+                    'name' => 'authToken',
+                    'contents' => env('WHATSAPP_AUTH_TOKEN'),
+                ],
+                [
+                    'name' => 'sendto',
+                    'contents' => $mobileNumber,
+                ],
+                [
+                    'name' => 'originWebsite',
+                    'contents' => env('WHATSAPP_ORIGIN_WEBSITE'),
+                ],
+                [
+                    'name' => 'templateName',
+                    'contents' => env('WHATSAPP_TEMPLATE_NAME'),
+                ],
+                [
+                    'name' => 'data',
+                    'contents' => json_encode(['message' => 'Hello Dear']),
+                ],
+                [
+                    'name' => 'language',
+                    'contents' => env('WHATSAPP_LANGUAGE'),
+                ],
+                [
+                    'name' => 'buttonValue',
+                    'contents' => env('WHATSAPP_BUTTON_VALUE'),
+                ],
+                [
+                    'name' => 'isTinyURL',
+                    'contents' => env('WHATSAPP_IS_TINY_URL'),
+                ],
+            ]);
+        $responseData = $whatsAppResponse->json();
+        return [
+            'message' => $responseData['Message'] ?? 'No message',
+            'status' => $responseData['Status'] ?? 500,
+            'messageId' => $responseData['Data']['messageId'] ?? null,
+            'isSuccess' => $responseData['IsSuccess'] ?? false,
+        ];
     }
+
+    private function saveHistory($data)
+    {
+        $history = new History();
+        $history->fill($data);
+        $history->save();
+    }
+
 
     public function addToCart(Request $request)
     {
