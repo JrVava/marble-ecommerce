@@ -15,10 +15,15 @@
     <style>
         .navbar {
             box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+            
         }
 
-        .navbar .navbar-brand img {
-            max-width: 100px;
+        .navbar .navbar-brand {
+            flex-grow: 1;
+        }
+        .navbar .navbar-nav {
+            display: flex !important;
+            align-items: center;
         }
 
         .navbar .navbar-nav .nav-link {
@@ -27,35 +32,98 @@
 
         .bold-icon {
             font-size: 1.3em;
-            /* Increase size */
             font-weight: bold;
-            /* Attempt to make it bolder */
         }
 
+        /* Desktop View (≥1024px) */
         @media screen and (min-width: 1024px) {
-            .navbar {
-                letter-spacing: 0.1em;
-            }
-
-            .navbar .navbar-nav .nav-link {
-                padding: 0.5em 1em;
-            }
-        }
-
-        @media screen and (min-width: 768px) {
-            .navbar .navbar-brand img {
-                max-width: 7em;
+            .navbar .container-xl {
+                display: flex;
+                justify-content: space-between;
             }
 
             .navbar .navbar-collapse {
+                flex-grow: 1;
                 display: flex;
-                flex-direction: column-reverse;
-                align-items: flex-end;
+                justify-content: center;
             }
         }
 
-        .cart i {
-            font-size: 1.5rem;
+        /* Mobile & Tablet View (≤1024px) */
+        @media screen and (max-width: 1024px) {
+
+            /* Hide the navbar menu in the header */
+            .navbar-toggler {
+                display: none !important;
+            }
+
+            .navbar-collapse {
+                display: none !important;
+            }
+
+            /* Menu fixed at bottom */
+            .mobile-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: #fff;
+                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+                padding: 10px 0;
+                z-index: 1000;
+            }
+
+            .mobile-nav ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                justify-content: space-around;
+            }
+
+            .mobile-nav ul li a {
+                text-decoration: none;
+                color: #000;
+                font-size: 1.1rem;
+            }
+        }
+
+        .mobile-nav ul {
+            padding: 0;
+            list-style: none;
+            background: #fff;
+        }
+
+        .mobile-nav ul li {
+            text-align: center;
+            flex: 1;
+        }
+
+        .mobile-nav ul li a {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: black;
+            font-size: 14px;
+            padding: 10px;
+        }
+
+        .mobile-nav ul li a i {
+            font-size: 24px;
+            /* Adjust icon size */
+            margin-bottom: 5px;
+            /* Space between icon and text */
+        }
+
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
         }
     </style>
 </head>
@@ -63,45 +131,34 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-md bg-body-tertiary">
-            <div class="container-xl">
+            <div class="container-xl d-flex align-items-center justify-content-between">
+                <!-- Logo on the left -->
                 <a class="navbar-brand" href="#">
-                    {{-- <img src="https://codingyaar.com/wp-content/uploads/coding-yaar-logo.png" alt=""> --}}
-                    <h1>
-                        <i>
-                            <strong>
-                                RR Marbles
-                            </strong>
-                        </i>
-                    </h1>
+                    <h1><i><strong>RR Marbles</strong></i></h1>
                 </a>
+
+                <!-- Toggler for mobile -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+                <!-- Menu (Centered on Desktop, Moved to Bottom on Mobile) -->
+                <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+                    <ul class="navbar-nav d-flex gap-3">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page"
-                                href="{{ route('preview-product.all-products') }}">All Products</a>
+                            <a class="nav-link active" href="{{ route('preview-product.all-products') }}">All
+                                Products</a>
                         </li>
                         <li class="nav-item d-flex align-items-center cart-li">
-                            <a href="#" class="nav-link scan-other-product" aria-current="page"
-                                style="display: none;">
-                                Scan Other Product
-                            </a>
+                            <a href="#" class="nav-link scan-other-product" style="display: none;">Scan Other
+                                Product</a>
                         </li>
-
-                        <!-- Scanner Modal -->
-                        <div id="scanner-container" style="display: none;">
-                            <div id="qr-reader" style="width: 300px;"></div>
-                            <button id="close-scanner">Close</button>
-                        </div>
                         <li class="nav-item d-flex align-items-center">
-                            <a class="btn btn-danger d-flex fw-bold align-items-center" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();">
-                                <span class="align-middle">Log Out </span>
+                            <a class="nav-link d-flex align-items-center" href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <span>Log Out</span>
                                 <i class='bi bi-box-arrow-right ms-2 bold-icon'></i>
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -112,8 +169,36 @@
                 </div>
             </div>
         </nav>
-
     </header>
+
+    <!-- Menu for mobile (separate for bottom position) -->
+    <nav class="mobile-nav d-md-none">
+        <ul class="d-flex justify-content-around">
+            <li>
+                <a href="{{ route('preview-product.all-products') }}">
+                    All Products
+                    <i class="bi bi-list"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="scan-other-product" style="display: none;">
+                    Scan Other Product
+                    <i class="bi bi-qr-code-scan"></i>
+                </a>
+            </li>
+            <li>
+                <a class="d-flex fw-bold align-items-center" href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <span>Log Out</span>
+                    <i class='bi bi-box-arrow-right ms-2 bold-icon'></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div id="scanner-container" style="display: none;">
+        <div id="qr-reader" style="width: 300px;"></div>
+        <button id="close-scanner">Close</button>
+    </div>
     <div class="container">
         @yield('content')
     </div>
@@ -136,12 +221,12 @@
                 toastr.error("{{ $error }}");
             @endforeach
         @endif
-        
+
         @if (Session::has('error'))
 
             toastr.error("{{ Session::get('error') }}");
         @endif
-        
+
         $(document).ready(function() {
             cart()
             $("body").on("click", ".increment, .decrement", function(event) {
